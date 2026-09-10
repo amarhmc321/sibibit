@@ -1,0 +1,290 @@
+:root {
+  --primary-teal: #2e7d32;    /* Hijau Perkebunan (Tetap pakai nama variabel teal) */
+  --teal-light: #66bb6a;      /* Hijau Terang */
+  --teal-dark: #1b5e20;       /* Hijau Gelap */
+  --teal-glow: rgba(46, 125, 50, 0.25);
+  --card-bg: rgba(24, 32, 25, 0.85); /* Glassmorphism Gelap Khas Natural/Agro */
+  --input-bg: rgba(255, 255, 255, 0.06);
+}
+
+body {
+  background: linear-gradient(135deg, #0d120f, #152217, #0d120f); /* Background earthy/dark green */
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Background Animasi Bulatan Natural */
+.bg-orbs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.15;
+  animation: float 12s infinite ease-in-out;
+}
+
+.orb-1 {
+  width: 350px;
+  height: 350px;
+  background: var(--primary-teal);
+  top: 10%;
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 250px;
+  height: 250px;
+  background: var(--teal-light);
+  top: 55%;
+  right: 8%;
+  animation-delay: 4s;
+}
+
+.orb-3 {
+  width: 180px;
+  height: 180px;
+  background: #8d6e63; /* Cokelat Tanah (Mewakili Peternakan) */
+  bottom: 15%;
+  left: 25%;
+  animation-delay: 8s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-25px) scale(1.06); }
+}
+
+.login-wrapper {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Kotak Login (Card Glassmorphism) */
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(46, 125, 50, 0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(46, 125, 50, 0.05);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 10px 30px rgba(46, 125, 50, 0.15);
+  border-color: rgba(46, 125, 50, 0.35);
+}
+
+.brand-card {
+  margin-bottom: 2rem;
+  position: relative;
+  padding-bottom: 1.25rem;
+}
+
+/* Garis Pembatas Halus di Bawah Nama Instansi */
+.brand-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 30%;
+  width: 40%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary-teal), transparent);
+  border-radius: 2px;
+}
+
+.logo-container-login {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-img-login {
+  width: 85px;
+  height: 85px;
+  border: 3px solid rgba(46, 125, 50, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.4s ease, border-color 0.4s ease;
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+}
+
+.logo-glow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--primary-teal);
+  filter: blur(12px);
+  opacity: 0.3;
+  z-index: 1;
+  animation: pulse 2.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.2; transform: scale(0.95); }
+  50% { opacity: 0.5; transform: scale(1.08); }
+}
+
+.profile-img-login:hover {
+  transform: scale(1.05);
+  border-color: var(--primary-teal);
+}
+
+.menu-text {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+  margin-top: 0.5rem;
+}
+
+.tagline {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+/* Area Form Input */
+.input-container {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+.form-control {
+  background: var(--input-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-left: none !important;
+  color: #f1f5f9 !important;
+  transition: all 0.25s ease;
+  padding: 0.75rem 1rem;
+}
+
+.input-group-text {
+  background: rgba(46, 125, 50, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: none !important;
+  color: var(--teal-light);
+  padding: 0.75rem 1rem;
+  transition: all 0.25s ease;
+}
+
+.form-control:focus {
+  border-color: rgba(46, 125, 50, 0.5) !important;
+  box-shadow: none !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Saat Input Aktif, Icon Group Text Ikut Berubah */
+.input-group:focus-within .input-group-text {
+  border-color: rgba(46, 125, 50, 0.5) !important;
+  color: var(--primary-teal);
+}
+
+.input-group:focus-within .form-control {
+  border-color: rgba(46, 125, 50, 0.5) !important;
+}
+
+/* Tombol Sembunyikan/Tampilkan Password */
+.toggle-password-btn {
+  background: rgba(46, 125, 50, 0.08) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+  cursor: pointer !important;
+  min-width: 46px;
+  justify-content: center;
+}
+
+.toggle-password-btn:hover {
+  color: var(--teal-light) !important;
+  background: rgba(46, 125, 50, 0.2) !important;
+}
+
+@keyframes fadeInToggle {
+  from { opacity: 0; transform: translateX(5px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.toggle-password-btn.show {
+  display: flex !important;
+  animation: fadeInToggle 0.25s ease forwards;
+}
+
+/* Tombol Submit Login */
+.btn-login {
+  background: linear-gradient(135deg, var(--teal-dark), var(--primary-teal));
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 12px rgba(27, 94, 32, 0.3);
+}
+
+.btn-login:hover {
+  background: linear-gradient(135deg, var(--primary-teal), var(--teal-light));
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+}
+
+.btn-login:active {
+  transform: translateY(0);
+}
+
+/* Bagian Bawah */
+.footer-text {
+  color: #64748b;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Penyesuaian Responsif Layar Handphone */
+@media (max-width: 576px) {
+  .profile-img-login {
+    width: 70px;
+    height: 70px;
+  }
+  .menu-text {
+    font-size: 1.3rem;
+  }
+  .card {
+    margin: 0.5rem;
+    border-radius: 12px;
+  }
+  .card-body {
+    padding: 1.75rem !important;
+  }
+}

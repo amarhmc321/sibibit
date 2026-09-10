@@ -1,0 +1,776 @@
+/* ========================================================
+   DASHBOARD & GRID UTAMA APOTEK
+   ======================================================== */
+.dashboard-container {
+ 
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ========================================================
+   PERBAIKAN KHUSUS: STAT DASHBOARD AREA
+   ======================================================== */
+
+.card-grid-dash {
+  display: grid;
+  /* Menggunakan minmax agar kartu tidak terlalu menyusut di layar tanggung */
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+/* Base Card Dashboard */
+.card-dash {
+  background-color: #fbfbfb;
+  border-radius: 12px;
+  padding: 0; /* Sengaja di-nol-kan agar padding diatur penuh oleh stat-card-dash */
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.04);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  border: 1px solid #e2e8f0;
+  overflow: hidden; /* Supaya lekukan border radius tetap rapi */
+}
+
+.card-dash:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(15, 118, 110, 0.08);
+  border-color: rgba(20, 184, 166, 0.4);
+}
+
+/* Mode Gelap Kartu */
+[data-bs-theme="dark"] .card-dash {
+  background-color: #132220;
+  border-color: rgba(20, 184, 166, 0.15);
+}
+
+/* Kontainer Utama di Dalam Kartu */
+.stat-card-dash {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem 1.5rem; /* Padding ideal untuk desktop */
+  width: 100%;
+  height: 100%;
+}
+
+/* Ikon Statistik */
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-right: 1.25rem;
+  flex-shrink: 0; /* Mencegah ikon gepeng/menyusut di layar kecil */
+}
+
+/* Area Informasi Teks */
+.stat-info-dash {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+  min-width: 0; /* Mencegah teks meluap (overflow) keluar kartu */
+}
+
+/* Label Atas (Misal: Total Penjualan, Stok Kritis) */
+.stat-info-dash span {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Jika teks terlalu panjang, otomatis jadi titik-titik (...) */
+}
+
+[data-bs-theme="dark"] .stat-info-dash span {
+  color: #94a3b8;
+}
+
+/* Angka / Nominal Utama */
+.stat-info-dash h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.1;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+[data-bs-theme="dark"] .stat-info-dash h3 {
+  color: #ffffff;
+}
+
+/* ========================================================
+   RESPONSIVITAS MOBILE (HP & TABLET)
+   ======================================================== */
+@media (max-width: 768px) {
+  .card-grid-dash {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .stat-card-dash {
+    padding: 1rem 1.25rem;
+  }
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    margin-right: 1rem;
+  }
+
+  .stat-info-dash h3 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .card-grid-dash {
+    /* 2 Kolom sejajar yang pas untuk layar HP kecil */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .stat-card-dash {
+    padding: 0.85rem;
+    gap: 0;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    margin-right: 0.75rem;
+  }
+
+  .stat-info-dash span {
+    font-size: 0.75rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .stat-info-dash h3 {
+    font-size: 1.1rem;
+  }
+}
+
+/* ========================================================
+   IKON STATISTIK (Disesuaikan dengan Indikator Farmasi)
+   ======================================================== */
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+/* Icon Blue -> Diganti Teal Medis (Stok Masuk / Pembelian Obat) */
+.icon-blue {
+  background-color: rgba(15, 118, 110, 0.20);
+  color: #Ff766e;
+}
+
+/* Icon Purple -> Diganti Amber/Orange (Resep Dokter / Obat Narkotika-Psikotropika) */
+.icon-purple {
+  background-color: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+}
+
+/* Icon Pink -> Diganti Soft Red (Obat Kedaluwarsa / Stok Kosong / Pengeluaran) */
+.icon-pink {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+}
+
+/* Icon Teal -> Diganti Emerald Green (Omset Kasir / Penjualan Lunas) */
+.icon-teal {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+/* Penyesuaian Kontras Warna Ikon pada Dark Mode */
+[data-bs-theme="dark"] .icon-blue { background-color: rgba(20, 184, 166, 0.2); color: #2dd4bf; }
+[data-bs-theme="dark"] .icon-purple { background-color: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+[data-bs-theme="dark"] .icon-pink { background-color: rgba(239, 68, 68, 0.2); color: #f87171; }
+[data-bs-theme="dark"] .icon-teal { background-color: rgba(16, 185, 129, 0.2); color: #34d399; }
+
+.stat-info-dash {
+  flex: 1;
+}
+
+.stat-info-dash span {
+  font-size: 0.85rem;
+  color: #64748b;
+  display: block;
+  margin-bottom: 4px;
+}
+
+[data-bs-theme="dark"] .stat-info-dash span {
+  color: #94a3b8;
+}
+
+.stat-info-dash h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1e293b;
+}
+
+[data-bs-theme="dark"] .stat-info-dash h3 {
+  color: #ffffff;
+}
+
+/* ========================================================
+   FILTER AREA (Pencarian Obat & Rentang Tanggal)
+   ======================================================== */
+#filter {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.04);
+  margin-bottom: 25px;
+  border: 1px solid #e2e8f0;
+}
+
+[data-bs-theme="dark"] #filter {
+  background-color: #132220;
+  border-color: rgba(20, 184, 166, 0.15);
+}
+
+.header-dash {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 10px;
+  padding-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.header-dash > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-dash label, .filter-group label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #475569;
+}
+
+[data-bs-theme="dark"] .header-dash label, 
+[data-bs-theme="dark"] .filter-group label {
+  color: #cbd5e1;
+}
+
+.header-dash input[type="date"], .filter-select, .filter-input {
+  min-width: 160px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #ffffff;
+  color: #1e293b;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+[data-bs-theme="dark"] .header-dash input[type="date"],
+[data-bs-theme="dark"] .filter-select,
+[data-bs-theme="dark"] .filter-input {
+  background-color: #172a27;
+  border-color: rgba(20, 184, 166, 0.25);
+  color: #f1f5f9;
+}
+
+.filter-select:focus, .filter-input:focus, .header-dash input[type="date"]:focus {
+  outline: none;
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+}
+
+/* Tombol Filter Aktif (Pills) */
+.filter-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+  background: #f1f5f9;
+  color: #475569;
+  transition: all 0.2s;
+}
+
+[data-bs-theme="dark"] .filter-btn {
+  background: #172a27;
+  color: #cbd5e1;
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: rgba(15, 118, 110, 0.15);
+  color: #0f766e;
+  font-weight: 600;
+}
+
+[data-bs-theme="dark"] .filter-btn:hover, 
+[data-bs-theme="dark"] .filter-btn.active {
+  background: rgba(20, 184, 166, 0.25);
+  color: #2dd4bf;
+}
+
+/* Aksi Button Submit/Reset */
+.filter-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.btn-filter {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-apply {
+  background-color: #0f766e;
+  color: white;
+}
+
+.btn-apply:hover {
+  background-color: #0d1514;
+}
+
+.btn-reset {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+[data-bs-theme="dark"] .btn-reset {
+  background-color: #172a27;
+  color: #cbd5e1;
+}
+
+/* ========================================================
+   GRAFIK APOTEK (CHART CONTAINER)
+   ======================================================== */
+.chart-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.04);
+  margin-bottom: 30px;
+  border: 1px solid #e2e8f0;
+}
+
+[data-bs-theme="dark"] .chart-container {
+  background-color: #132220;
+  border-color: rgba(20, 184, 166, 0.15);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.chart-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f766e;
+  margin: 0;
+}
+
+[data-bs-theme="dark"] .chart-title {
+  color: #2dd4bf;
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 992px) {
+  .chart-row { grid-template-columns: 1fr; }
+}
+
+/* ========================================================
+   TABEL TRANSAKSI (MUTASI OBAT / KASIR)
+   ======================================================== */
+.recent-transactions {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.04);
+  border: 1px solid #e2e8f0;
+}
+
+[data-bs-theme="dark"] .recent-transactions {
+  background-color: #132220;
+  border-color: rgba(20, 184, 166, 0.15);
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transactions-table th {
+  text-align: left;
+  padding: 12px 15px;
+  border-bottom: 2px solid #e2e8f0;
+  color: #475569;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+[data-bs-theme="dark"] .transactions-table th {
+  border-bottom-color: rgba(20, 184, 166, 0.2);
+  color: #cbd5e1;
+}
+
+.transactions-table td {
+  padding: 14px 15px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+  font-size: 0.9rem;
+}
+
+[data-bs-theme="dark"] .transactions-table td {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+}
+
+.transactions-table tr:hover {
+  background-color: #f8fafc;
+}
+
+[data-bs-theme="dark"] .transactions-table tr:hover {
+  background-color: rgba(20, 184, 166, 0.05);
+}
+
+/* Status Stok / Transaksi */
+.badge-status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-masuk {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+.status-keluar {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+}
+
+/* ========================================================
+   AKTIVITAS TERBARU (LOG AUDIT / STAF APOTEK)
+   ======================================================== */
+.activity-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.04);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+[data-bs-theme="dark"] .activity-container {
+  background-color: #132220;
+  border-color: rgba(20, 184, 166, 0.15);
+}
+
+.activity-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+}
+
+[data-bs-theme="dark"] .activity-item {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-content h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+[data-bs-theme="dark"] .activity-content h4 {
+  color: #ffffff;
+}
+
+/* ========================================================
+   RINGKASAN NOTA / KASIR (SUMMARY AREA)
+   ======================================================== */
+.summary-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.04);
+  margin-bottom: 20px;
+  border: 1px solid #e2e8f0;
+}
+
+[data-bs-theme="dark"] .summary-card {
+  background-color: #132220;
+  border-color: rgba(20, 184, 166, 0.15);
+}
+
+.summary-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #0f766e;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+[data-bs-theme="dark"] .summary-title {
+  color: #2dd4bf;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.9rem;
+}
+
+[data-bs-theme="dark"] .summary-item {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.summary-total {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0f766e !important;
+}
+
+[data-bs-theme="dark"] .summary-total {
+  color: #2dd4bf !important;
+}
+
+/* ========================================================
+   KOMPONEN FOOTER & BREAKPOINTS LAYAR KECIL
+   ======================================================== */
+.footer-dash {
+  text-align: center;
+  padding: 20px;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 35px;
+}
+
+[data-bs-theme="dark"] .footer-dash {
+  border-top-color: rgba(20, 184, 166, 0.15);
+  color: #64748b;
+}
+
+@media (max-width: 576px) {
+  .card-grid-dash {
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+    gap: 0.8rem;
+  }
+  .card-dash { padding: 0.8rem; }
+  .stat-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+  }
+  .stat-info-dash h3 { font-size: 1.1rem; }
+}
+
+/* Efek hover agar kartu terlihat lebih interaktif */
+.hover-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15) !important;
+}
+
+/* Memastikan gambar memiliki tinggi yang seragam */
+.card-img-custom {
+  height: 200px;
+  object-fit: cover;
+}
+
+.stepper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 40px;
+}
+
+.step {
+    position: relative;
+}
+
+/* Bagian icon + garis */
+.step-header {
+    height: 55px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.step-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #159447;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    font-size: 20px;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+}
+
+/* Garis antar step */
+.step:not(:last-child) .step-header::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(100% + 16px);
+    height: 3px;
+    background: #159447;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+/* ====== CLASS UNTUK STATUS BELUM SELESAI ====== */
+.step.belum-selesai .step-icon {
+    background: #ffffff;
+    color: #98a2b3;
+    border-color: #98a2b3;
+}
+
+.step.belum-selesai:not(:last-child) .step-header::after {
+    background: #e1e5ea;
+}
+
+.step-status.belum-selesai {
+    background: #fff4e5;
+    color: #b54708;
+}
+
+/* Card */
+.step-card {
+    margin-top: 10px;
+    min-height: 285px;
+    border: 1px solid #e1e5ea;
+    border-radius: 16px;
+    background: white;
+}
+
+.step-number {
+    font-size: 12px;
+    color: #637083;
+    font-weight: 600;
+}
+
+.step-status {
+    background: #e8f6ed;
+    color: #159447;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+.step-title {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.step-date {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.step-description {
+    color: #667085;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+    .stepper {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .step:not(:last-child) .step-header::after {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .stepper {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+}
+
+/* ====== CLASS UNTUK STATUS SEDANG BERLANGSUNG ====== */
+.step.sedang-berlangsung .step-icon {
+    background: #0284c7; /* Warna biru aktif */
+    color: white;
+    box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.2);
+}
+
+.step-status.sedang-berlangsung {
+    background: #e0f2fe;
+    color: #0369a1;
+}

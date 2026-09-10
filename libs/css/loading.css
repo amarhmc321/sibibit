@@ -1,0 +1,158 @@
+/* ========================================================
+   LOADING OVERLAY TEMA DINAS PERKEBUNAN & PETERNAKAN
+   ======================================================== */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Menggunakan warna dasar off-white dengan hint natural */
+  background: #f5f7f5; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 99999; /* Dipastikan berada di paling atas seluruh elemen */
+  color: #1e293b;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Otomatisasi Support Tema Gelap Aplikasi */
+[data-bs-theme="dark"] .loading-overlay {
+  background: #111512; /* Charcoal natural gelap mengikuti layout dashboard malam */
+  color: #f1f5f9;
+}
+
+/* Logo Lingkaran */
+.logo-container {
+  width: 110px;
+  height: 110px;
+  background: #ffffff;
+  border-radius: 50%;
+  border: 4px solid rgba(46, 125, 50, 0.15); /* Hijau Perkebunan Transparan */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(27, 94, 32, 0.06);
+  margin-bottom: 24px;
+  animation: pulseLogo 2.5s infinite ease-in-out;
+}
+
+[data-bs-theme="dark"] .logo-container {
+  background: #182019;
+  border-color: rgba(46, 125, 50, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.logo-container img {
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+}
+
+@keyframes pulseLogo {
+  0%, 100% { transform: scale(1); box-shadow: 0 10px 25px rgba(27, 94, 32, 0.06); }
+  50% { transform: scale(1.03); box-shadow: 0 10px 30px rgba(46, 125, 50, 0.2); }
+}
+
+/* Nama Instansi */
+.company-name {
+  font-family: "Inter", sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0;
+  color: #2e7d32; /* Warna Hijau Perkebunan Utama */
+}
+
+[data-bs-theme="dark"] .company-name {
+  color: #66bb6a; /* Warna Hijau Terang pada mode malam */
+}
+
+/* Status Pekerjaan / Loading Text */
+.loading-text {
+  font-family: "Inter", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin: 8px 0 20px 0;
+  color: #64748b;
+  animation: fadePulse 1.5s infinite ease-in-out;
+}
+
+[data-bs-theme="dark"] .loading-text {
+  color: #94a3b8;
+}
+
+@keyframes fadePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Progress Bar */
+.progress-bar {
+  width: 260px;
+  height: 6px; /* Lebih tipis dan minimalis (elegan) */
+  background: #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  border: none;
+  box-shadow: none;
+  margin: 0 auto;
+}
+
+[data-bs-theme="dark"] .progress-bar {
+  background: #1d261e;
+}
+
+/* Jalur Warna Pengisian Progress */
+.progress-bar .progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #1b5e20, #2e7d32); /* Gradasi hijau gelap ke hijau utama */
+  border-radius: 10px;
+  transition: width 0.2s ease-out;
+}
+
+[data-bs-theme="dark"] .progress-bar .progress {
+  background: linear-gradient(90deg, #2e7d32, #66bb6a); /* Gradasi hijau utama ke hijau terang */
+}
+
+/* Slogan Bawah */
+.slogan {
+  font-family: "Inter", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 24px;
+  color: #94a3b8;
+  letter-spacing: 0.3px;
+}
+
+[data-bs-theme="dark"] .slogan {
+  color: #475569;
+}
+
+/* Responsivitas Mobile */
+@media (max-width: 500px) {
+  .company-name {
+    font-size: 1.4rem;
+  }
+  .loading-text {
+    font-size: 0.95rem;
+  }
+  .logo-container {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 16px;
+  }
+  .logo-container img {
+    width: 60px;
+    height: 60px;
+  }
+  .progress-bar {
+    width: 200px;
+  }
+}

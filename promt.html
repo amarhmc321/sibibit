@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Horizontal Stepper</title>
+
+    <!-- Bootstrap 5 -->
+   <link href="assets/bootstrap-5.3.3-dist/css/bootstrap.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f5f7fa;
+        }
+
+        .stepper {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            padding: 40px;
+        }
+
+        .step {
+            position: relative;
+        }
+
+        /* Bagian icon + garis */
+        .step-header {
+            height: 55px;
+            position: relative;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .step-icon {
+            width: 50px;
+            height: 50px;
+
+            border-radius: 50%;
+
+            background: #159447;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+            z-index: 2;
+
+            font-size: 20px;
+
+            /* tambahan agar ukuran tetap sama saat diberi border */
+            border: 2px solid transparent;
+            box-sizing: border-box;
+        }
+
+        /* Garis antar step */
+        .step:not(:last-child) .step-header::after {
+            content: "";
+
+            position: absolute;
+
+            top: 50%;
+            left: 50%;
+
+            width: calc(100% + 16px);
+            height: 3px;
+
+            background: #159447;
+
+            transform: translateY(-50%);
+
+            z-index: 1;
+        }
+
+        /* ====== CLASS UNTUK STATUS BELUM SELESAI ====== */
+        .step.belum-selesai .step-icon {
+            background: #ffffff;
+            color: #98a2b3;
+            border-color: #98a2b3;
+        }
+
+        .step.belum-selesai:not(:last-child) .step-header::after {
+            background: #e1e5ea;
+        }
+
+        .step-status.belum-selesai {
+            background: #fff4e5;
+            color: #b54708;
+        }
+
+        /* Card */
+        .step-card {
+            margin-top: 10px;
+
+            min-height: 285px;
+
+            border: 1px solid #e1e5ea;
+            border-radius: 16px;
+
+            background: white;
+        }
+
+        .step-number {
+            font-size: 12px;
+            color: #637083;
+            font-weight: 600;
+        }
+
+        .step-status {
+            background: #e8f6ed;
+            color: #159447;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .step-title {
+            color: #08285c;
+
+            font-size: 16px;
+            font-weight: 700;
+
+            line-height: 1.35;
+        }
+
+        .step-date {
+            color: #0066ff;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .step-description {
+            color: #667085;
+
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        @media (max-width: 900px) {
+            .stepper {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .step:not(:last-child) .step-header::after {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stepper {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="stepper">
+
+    <!-- STEP 1 -->
+    <div class="step">
+
+        <div class="step-header">
+            <div class="step-icon">
+                📄
+            </div>
+        </div>
+
+        <div class="card step-card">
+            <div class="card-body">
+
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="step-number">01</span>
+
+                    <span class="step-status">
+                        Selesai
+                    </span>
+                </div>
+
+                <h5 class="step-title">
+                    Pendaftaran Perusahaan dan K/L
+                </h5>
+
+                <div class="step-date mb-3">
+                    29 Juni - 16 Juli 2026
+                </div>
+
+                <p class="step-description">
+                    Siapkan persyaratan dan kelengkapan administrasi
+                    yang diperlukan untuk pendaftaran sebagai perusahaan
+                    ataupun K/L.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- STEP 2 -->
+    <div class="step">
+
+        <div class="step-header">
+            <div class="step-icon">
+                👥
+            </div>
+        </div>
+
+        <div class="card step-card">
+            <div class="card-body">
+
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="step-number">02</span>
+
+                    <span class="step-status">
+                        Selesai
+                    </span>
+                </div>
+
+                <h5 class="step-title">
+                    Pendaftaran Peserta
+                </h5>
+
+                <div class="step-date mb-3">
+                    16 - 29 Juli 2026
+                </div>
+
+                <p class="step-description">
+                    Siapkan profil SiapKerja terbaikmu, lakukan
+                    pendaftaran lalu lamar posisi magang yang sesuai
+                    dengan kompetensi dan minatmu.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- STEP 3 -->
+    <div class="step">
+
+        <div class="step-header">
+            <div class="step-icon">
+                🔽
+            </div>
+        </div>
+
+        <div class="card step-card">
+            <div class="card-body">
+
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="step-number">03</span>
+
+                    <span class="step-status">
+                        Selesai
+                    </span>
+                </div>
+
+                <h5 class="step-title">
+                    Rekrutmen dan Pengusulan Peserta
+                </h5>
+
+                <div class="step-date mb-3">
+                    29 Juli - 6 Agustus 2026
+                </div>
+
+                <p class="step-description">
+                    Ikuti proses seleksi yang dilakukan perusahaan/KL,
+                    seperti seleksi administrasi dan/atau wawancara.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- STEP 4 : BELUM SELESAI -->
+    <div class="step belum-selesai">
+
+        <div class="step-header">
+            <div class="step-icon">
+                📣
+            </div>
+        </div>
+
+        <div class="card step-card">
+            <div class="card-body">
+
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="step-number">04</span>
+
+                    <span class="step-status belum-selesai">
+                        Belum Selesai
+                    </span>
+                </div>
+
+                <h5 class="step-title">
+                    Seleksi Nasional dan Pengumuman Peserta
+                </h5>
+
+                <div class="step-date mb-3">
+                    7 - 8 Agustus 2026
+                </div>
+
+                <p class="step-description">
+                    Cek pengumuman hasil seleksi nasional melalui
+                    MagangHub.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- STEP 5 : BELUM SELESAI -->
+    <div class="step belum-selesai">
+
+        <div class="step-header">
+            <div class="step-icon">
+                💼
+            </div>
+        </div>
+
+        <div class="card step-card">
+            <div class="card-body">
+
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="step-number">05</span>
+
+                    <span class="step-status belum-selesai">
+                        Belum Selesai
+                    </span>
+                </div>
+
+                <h5 class="step-title">
+                    1st Day Magang
+                </h5>
+
+                <div class="step-date mb-3">
+                    10 - 11 Agustus 2026
+                </div>
+
+                <p class="step-description">
+                    Mulailah perjalanan magangmu selama 6 bulan.
+                    Ikuti pembelajaran di dunia kerja dan bimbingan
+                    mentor.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

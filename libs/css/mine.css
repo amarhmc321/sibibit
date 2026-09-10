@@ -1,0 +1,392 @@
+/*alert by Amar Syahril HMC*/
+/* Variabel Warna */
+:root {
+  --primary-success: #28a745;
+  --primary-error: #dc3545;
+  --primary-warning: #ffc107;
+  --primary-info: #17a2b8;
+  --primary-read: #6c757d;
+}
+
+/* Backdrop Popup */
+.popup-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* Tampilkan Popup */
+.popup-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Kontainer Popup */
+.popup-container {
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 450px;
+  width: 90%;
+  transform: translateY(-20px) scale(0.95);
+  transition: transform 0.4s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efek Muncul */
+.popup-backdrop.active .popup-container {
+  transform: translateY(0) scale(1);
+}
+
+/* Animasi Ikon */
+.popup-icon {
+  text-align: center;
+  font-size: 64px;
+  margin: 20px 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  animation: iconBounce 0.6s ease-in-out;
+}
+
+/* Judul dan Pesan */
+.popup-title {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.popup-message {
+  text-align: center;
+  color: #495057;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+/* Tombol */
+.popup-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.popup-button {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.popup-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Warna Sesuai Tipe */
+.success {
+  color: var(--primary-success);
+}
+.error {
+  color: var(--primary-error);
+}
+.warning {
+  color: var(--primary-warning);
+}
+.info {
+  color: var(--primary-info);
+}
+.read {
+  color: var(--primary-read);
+}
+
+.success-bg {
+  background: linear-gradient(135deg, var(--primary-success), #218838);
+  color: white;
+}
+.error-bg {
+  background: linear-gradient(135deg, var(--primary-error), #c82333);
+  color: white;
+}
+.warning-bg {
+  background: linear-gradient(135deg, var(--primary-warning), #e0a800);
+  color: black;
+}
+.info-bg {
+  background: linear-gradient(135deg, var(--primary-info), #138496);
+  color: white;
+}
+.read-bg {
+  background: linear-gradient(135deg, var(--primary-read), #5a6268);
+  color: white;
+}
+
+/* Animasi */
+@keyframes iconBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ===================== RESPONSIVE DESIGN ===================== */
+
+/* Mobile (≤ 480px) */
+@media (max-width: 480px) {
+  .popup-container {
+    width: 95%;
+    padding: 20px;
+    max-width: 90%;
+  }
+  .popup-title {
+    font-size: 1.5rem;
+  }
+  .popup-message {
+    font-size: 0.9rem;
+  }
+  .popup-icon {
+    font-size: 50px;
+  }
+  .popup-button {
+    padding: 10px 20px;
+    min-width: 100px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Tablet (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .popup-container {
+    max-width: 85%;
+    padding: 25px;
+  }
+  .popup-title {
+    font-size: 1.6rem;
+  }
+  .popup-message {
+    font-size: 1rem;
+  }
+  .popup-button {
+    padding: 12px 25px;
+    min-width: 110px;
+  }
+}
+
+/* Desktop Kecil (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .popup-container {
+    max-width: 60%;
+    padding: 30px;
+  }
+}
+
+/* Desktop Besar (> 1024px) */
+@media (min-width: 1025px) {
+  .popup-container {
+    max-width: 450px;
+  }
+}
+
+/*### For Loading ##*/
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2d2d2d, #4a4a4a);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+  color: #fff;
+  text-align: center;
+  animation: bgPulse 6s infinite alternate;
+}
+
+@keyframes bgPulse {
+  0% {
+    background: linear-gradient(135deg, #2d2d2d, #4a4a4a);
+  }
+  50% {
+    background: linear-gradient(135deg, #1f1f1f, #3a3a3a);
+  }
+  100% {
+    background: linear-gradient(135deg, #2d2d2d, #4a4a4a);
+  }
+}
+
+/* Logo */
+.logo-container {
+  width: 120px;
+  height: 120px;
+  background: #f0b400;
+  border-radius: 50%;
+  border: 5px solid #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 15px #f0b400;
+  margin-bottom: 20px;
+  animation: bounceLogo 2s infinite;
+}
+
+.logo-container img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 5px #000);
+}
+
+@keyframes bounceLogo {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Nama Perusahaan */
+.company-name {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  margin: 10px 0;
+  color: #f0b400;
+  text-shadow: 0 0 10px #f0b400;
+}
+
+/* Teks Loading */
+.loading-text {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.5rem;
+  margin: 10px 0;
+  color: #fff;
+  text-shadow: 0 0 10px #f0b400;
+  animation: flicker 1.5s infinite;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Progress Bar */
+.progress-bar {
+  width: 60%;
+  height: 20px;
+  background: #555;
+  border-radius: 10px;
+  margin-top: 20px;
+  overflow: hidden;
+  border: 3px solid #f0b400;
+  box-shadow: 0 0 10px #f0b400;
+  position: relative;
+}
+
+.progress-bar .progress {
+  height: 100%;
+  width: 0%;
+  background: repeating-linear-gradient(
+    45deg,
+    #f0b400 0px,
+    #f0b400 20px,
+    #333 20px,
+    #333 40px
+  );
+  transition: width 0.5s;
+}
+
+.progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-image: url("https://cdn-icons-png.flaticon.com/512/3512/3512274.png");
+  background-size: 40px;
+  background-repeat: repeat-x;
+  animation: moveTruck 3s linear infinite;
+  opacity: 0.2;
+}
+
+@keyframes moveTruck {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+/* Slogan */
+.slogan {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  margin-top: 15px;
+  color: #fff;
+  text-shadow: 0 0 5px #f0b400;
+  animation: slideSlogan 4s infinite;
+}
+
+@keyframes slideSlogan {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(15px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 500px) {
+  .company-name {
+    font-size: 1.5rem;
+  }
+  .loading-text {
+    font-size: 1.2rem;
+  }
+  .logo-container {
+    width: 90px;
+    height: 90px;
+  }
+  .progress-bar {
+    width: 80%;
+  }
+}
