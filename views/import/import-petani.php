@@ -1,8 +1,8 @@
 <div class="card">
     <div class="card-header">
-        <h3 class="judul"><i class="fa-solid fa-fa-cash-register"></i><span> Import Data Transaksi</span></h3>
+        <h3 class="judul"><i class="fas fa-users"></i><span> Import Data Petani</span></h3>
         <ul class="tombol-cetak">
-            <a class="dropdown-item" href="#" data-page="transaksi">
+            <a class="dropdown-item" href="#" data-page="data-petani">
                 <i class="fas fa-arrow-right me-2"></i>Kembali
             </a>
         </ul>
@@ -18,8 +18,16 @@
                     <input type="file" class="form-control" name="file_excel" accept=".xls,.xlsx" required>
                 </div>
 
-                <!-- Select Lokasi -->
-                <div class="col-md-4" id="filter">
+                <!-- Kecamatan Tujuan -->
+                <div class="col-md-2">
+                    <select class="form-select" id="filter-kecamatan" name="id_kecamatan"></select>
+                </div>
+
+                <!-- Desa Tujuan -->
+                <div class="col-md-2">
+                    <select class="form-select" id="filter-desa" name="id_desa" required>
+                        <option value="" selected disabled>Pilih Kecamatan dulu</option>
+                    </select>
                 </div>
 
                 <!-- Tombol -->
@@ -46,7 +54,11 @@
                         <ol class="ps-3">
                             <li>Klik <b>Browse</b> untuk mencari file yang ingin diimport</li>
                             <li>Pastikan file berformat <b>.xls</b> atau <b>.xlsx</b></li>
-                            <li>Pastikan Data sesuai</li>
+                            <li>Kolom yang dibaca: <b>Nama Petani</b> (wajib), <b>NIK</b>, <b>Jenis Kelamin</b>
+                                (L/P), <b>Kontak</b>, dan <b>Alamat</b></li>
+                            <li>Disarankan format kolom <b>NIK</b> dan <b>Kontak</b> sebagai <b>Text</b> agar
+                                angka 0 di depan tidak hilang</li>
+                            <li>Pilih <b>Kecamatan</b> dan <b>Desa</b> tujuan untuk semua data yang diimport</li>
                             <li>Klik <b>Preview</b> untuk melihat hasil data</li>
                             <li>Klik <b>Simpan</b> untuk menyimpan data</li>
                         </ol>
@@ -68,7 +80,8 @@
                     data-bs-parent="#Help">
                     <div class="accordion-body">
                         <ol class="ps-3">
-                            <li>Link  <a href="views/404.html">Download</a></li>
+                            <li><a href="views/import/contoh-import-petani.xlsx" download>Download contoh format
+                                    (.xlsx)</a></li>
                         </ol>
                     </div>
                 </div>
@@ -89,7 +102,3 @@
 
 
 </div>
-
-<script>
-    
-</script>

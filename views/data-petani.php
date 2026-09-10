@@ -15,6 +15,11 @@
                 </div>
 
 
+                <div class="ms-2" data-bs-toggle="tooltip2" title="Import Data">
+                    <button class="btn btn-sm btn-success link" data-page="import-petani"><i class="fas fa-file-import"></i></button>
+                </div>
+
+
             </div>
             <div class="">
                 <div class="row mb-3">

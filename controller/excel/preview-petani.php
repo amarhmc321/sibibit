@@ -48,9 +48,11 @@ $invalid = [];
    HEADER ALIAS
 ================================ */
 $headerAlias = [
-    'kd_obat'       => ['kd obat', 'kode obat', 'kode'],
-    'tgl_transaksi' => ['tanggal', 'tgl transaksi', 'tgl', 'tgl transaksi',],
-    'jml_transaksi' => ['jumlah', 'jumlah transaksi', 'qty', 'jml transaksi']
+    'nama_petani' => ['nama', 'nama petani', 'nama_petani', 'nama lengkap'],
+    'nik'         => ['nik', 'no ktp', 'no. ktp', 'noktp', 'ktp'],
+    'jekel'       => ['jekel', 'jenis kelamin', 'jk', 'gender'],
+    'kontak'      => ['kontak', 'no hp', 'no. hp', 'nohp', 'hp', 'telepon', 'telp'],
+    'alamat'      => ['alamat', 'alamat lengkap'],
 ];
 
 $totalSheet = count($reader->sheets());
@@ -81,12 +83,13 @@ for ($s = 0; $s < $totalSheet; $s++) {
                 }
             }
 
-            // header dianggap valid minimal kolom wajib ada
-            if (isset($headerIndex['kd_obat'],$headerIndex['tgl_transaksi'], $headerIndex['jml_transaksi'])) {
-                // set default untuk kolom opsional
+            // header dianggap valid bila kolom wajib ada
+            if (isset($headerIndex['nama_petani'])) {
                 $headerIndex += [
-                    'jns_transaksi' => null,
-                    'ket_transaksi' => null
+                    'nik'    => null,
+                    'jekel'  => null,
+                    'kontak' => null,
+                    'alamat' => null,
                 ];
 
                 $headerFound = true;
@@ -105,28 +108,48 @@ for ($s = 0; $s < $totalSheet; $s++) {
         /* ===============================
            AMBIL DATA
         ================================ */
-        $tgl = $row[$headerIndex['tgl_transaksi']] ?? '';
+        $get = function ($key) use ($row, $headerIndex) {
+            if ($headerIndex[$key] === null || !isset($row[$headerIndex[$key]])) {
+                return '';
+            }
+            $val = $row[$headerIndex[$key]];
+            // reader mengubah angka menjadi float -> kembalikan sebagai teks utuh
+            if (is_float($val) || is_int($val)) {
+                $val = sprintf('%.0f', $val);
+            }
+            return trim((string) $val);
+        };
 
-        // handle tanggal excel numerik
-        if (is_numeric($tgl)) {
-            $tgl = date('Y-m-d', strtotime('1899-12-30 +' . $tgl . ' days'));
+        $jekel = strtolower($get('jekel'));
+        if ($jekel === 'p' || strpos($jekel, 'perempuan') === 0) {
+            $jekel = 'P';
+        } elseif ($jekel === 'l' || strpos($jekel, 'laki') === 0 || strpos($jekel, 'pria') === 0) {
+            $jekel = 'L';
+        } elseif ($jekel === '') {
+            $jekel = '';
+        } else {
+            $jekel = 'L';
+        }
+
+        $kontak = $get('kontak');
+        // pulihkan leading zero nomor HP yang hilang saat dibaca sebagai angka
+        if (preg_match('/^8\d{9,10}$/', $kontak)) {
+            $kontak = '0' . $kontak;
         }
 
         $data = [
-            'sheet'         => $s + 1,
-            'kd_obat'         => trim($row[$headerIndex['kd_obat']] ?? ''),
-            'tgl_transaksi' => trim($tgl),
-            'jml_transaksi' => trim($row[$headerIndex['jml_transaksi']] ?? '')
+            'sheet'       => $s + 1,
+            'nama_petani' => $get('nama_petani'),
+            'nik'         => $get('nik'),
+            'jekel'       => $jekel,
+            'kontak'      => $kontak,
+            'alamat'      => $get('alamat'),
         ];
 
         /* ===============================
            VALIDASI ISI
         ================================ */
-        if (
-            $data['kd_obat'] !== '' &&
-            $data['tgl_transaksi'] !== '' &&
-            is_numeric($data['jml_transaksi'])
-        ) {
+        if ($data['nama_petani'] !== '') {
             $valid[] = $data;
         } else {
             $invalid[] = $data;

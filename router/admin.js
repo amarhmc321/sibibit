@@ -52,6 +52,12 @@ $(document).ready(function () {
       scripts: ["modul/modulPetani.js"],
     }, 
 
+    "import-petani": {
+      view: "views/import/import-petani.php",
+      title: "Import Data Petani",
+      scripts: ["modul/modulImportPetani.js"],
+    }, 
+
     "data-bibit": {
       view: "views/data-bibit.php",
       title: "Data bibit",
