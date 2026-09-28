@@ -144,7 +144,7 @@ $tahun = splitTahun($tanggal);
        $q = "SELECT pj.*,
             g.nama_kelompok,
             p.nama_petani as ketua,
-            SUM(l.luas_lahan) AS tot_luas_lahan,
+            COALESCE(SUM(l.luas_lahan), 0) AS tot_luas_lahan,
             d.nama_desa,
             k.nama_kecamatan,
             b.nama_bibit

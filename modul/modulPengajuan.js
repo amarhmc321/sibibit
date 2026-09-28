@@ -34,11 +34,49 @@ $(document).ready(function () {
     }
   });
 
+  $("#id-group, #judul").on("change input", function() {
+    updateEstimasiBibitUser();
+  });
 
 });
 
+function updateEstimasiBibitUser() {
+  let id_group = $("#id-group").val();
+  let nama_bibit = $("#nama_bibit").val();
+  let judul = $("#judul").val();
+  let jml_per_hektar = parseInt($("#jml-per-hektar").val()) || 0;
+  let satuan = $("#satuan-bibit").val() || 'pohon';
 
+  if (!id_group) {
+    $("#tot-luas-lahan").val("");
+    $("#jml-bantuan").val("");
+    $("#estimasi-bibit").html('<small class="text-muted"><i class="fa fa-info-circle me-1"></i>Pilih kelompok untuk memuat total luas lahan & estimasi bibit.</small>');
+    return;
+  }
 
+  $.ajax({
+    url: `controller/process/getUserGroups.php?id_group=${id_group}`,
+    type: "GET",
+    dataType: "json",
+    success: function(resGroup) {
+      let luas = parseFloat(resGroup.tot_luas_lahan) || 0;
+      $("#tot-luas-lahan").val(luas > 0 ? luas : 0);
+
+      let calc = hitungBibit(nama_bibit, judul, luas, jml_per_hektar, satuan);
+      if (calc.jumlah > 0) {
+        $("#jml-bantuan").val(calc.jumlah);
+        $("#estimasi-bibit").html(`<span class="badge bg-success-subtle text-success border border-success-subtle"><i class="fa fa-calculator me-1"></i>Estimasi: ${new Intl.NumberFormat('id-ID').format(calc.jumlah)} ${calc.satuan} (${calc.text})</span>`);
+      } else {
+        $("#jml-bantuan").val(0);
+        if (luas <= 0) {
+          $("#estimasi-bibit").html('<span class="text-danger small"><i class="fa fa-exclamation-triangle me-1"></i>Kelompok ini belum memiliki data lahan terdaftar di sistem.</span>');
+        } else {
+          $("#estimasi-bibit").empty();
+        }
+      }
+    }
+  });
+}
 
 function resetPdfPreview() {
     $("#pdf-preview").attr("src", "");
@@ -61,7 +99,7 @@ function loadPengajuan() {
     success: function (data) {
       if (!Array.isArray(data) || data.length === 0) {
         $("#Pengajuan tbody").html(
-          '<tr><td colspan="12" class="text-center">Tidak ada data</td></tr>'
+          '<tr><td colspan="13" class="text-center">Tidak ada data</td></tr>'
         );
         return;
       }
@@ -75,6 +113,7 @@ function loadPengajuan() {
                     <td>${item.nama_kecamatan} - ${item.nama_desa}</td>
                     <td>${item.ketua}</td>
                     <td>${item.nama_bibit}</td>
+                    <td>${parseFloat(item.tot_luas_lahan) > 0 ? item.tot_luas_lahan + ' Ha' : '-'}</td>
                     <td>${formatStatus(item.s_pengajuan)}</td>
                     <td>${item.tgl_pengajuan}</td>
                     <td>${item.s_pengajuan >= 2 ? "-" : item.tgl_penyaluran }</td>
@@ -149,11 +188,22 @@ function editPengajuan(id_pengajuan) {
       $("#judul").val(data.judul);
       $("#ketua").val(data.ketua);
       $("#id-pengajuan").val(data.id_pengajuan);
-      $("#id-group").val(data.id_group).trigger("change");
+      $("#id-group").val(data.id_group);
+      $("#id_bibit").val(data.id_bibit);
       $("#nama_bibit").val(data.nama_bibit);
+      $("#jml-per-hektar").val(data.jml_per_hektar || 100);
+      $("#satuan-bibit").val(data.satuan || 'pohon');
+      $("#label-satuan-bantuan").text(data.satuan || 'pohon');
+      $("#tot-luas-lahan").val(parseFloat(data.tot_luas_lahan) > 0 ? data.tot_luas_lahan : 0);
       $("#jml-bantuan").val(data.jml_bantuan);
       $("#tgl-penyaluran").val(data.tgl_penyaluran);
-      // $("#file-proposal").val(data.file_proposal);
+
+      let calc = hitungBibit(data.nama_bibit, data.judul, data.tot_luas_lahan, data.jml_per_hektar, data.satuan);
+      if (calc.jumlah > 0) {
+        $("#estimasi-bibit").html(`<span class="badge bg-success-subtle text-success border border-success-subtle"><i class="fa fa-calculator me-1"></i>Estimasi: ${new Intl.NumberFormat('id-ID').format(calc.jumlah)} ${calc.satuan} (${calc.text})</span>`);
+      } else {
+        $("#estimasi-bibit").empty();
+      }
       
       // --- MENAMPILKAN PREVIEW PDF SAAT EDIT ---
       // Asumsi 'data.file' berisi nama file PDF (misal: proposal123.pdf)
@@ -209,6 +259,9 @@ $("#modalPengajuan").on("hidden.bs.modal", function () {
   $(".needs-validation").removeClass("was-validated");
   
   $("#id-pengajuan").val("");
+  $("#tot-luas-lahan").val("");
+  $("#jml-bantuan").val("");
+  $("#estimasi-bibit").empty();
   $("#action").val("create");
   $(".modal-title").text("Tambah Data Pengajuan");
   

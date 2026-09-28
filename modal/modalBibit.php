@@ -61,6 +61,33 @@
                         </div>
                     </div>
 
+                    <!-- Input Rumus / Rasio per Hektar -->
+                    <div class="row mb-3 align-items-center">
+                        <label for="jml_per_hektar" class="col-sm-3 col-form-label fw-semibold">Rasio per Ha</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="jml_per_hektar" name="jml_per_hektar" placeholder="Contoh: 1000 atau 100" required min="1">
+                                <span class="input-group-text">/ Hektar</span>
+                                <div class="invalid-feedback">Jumlah per hektar wajib diisi.</div>
+                            </div>
+                            <div class="form-text">Rumus alokasi bibit per hektar lahan kelompok (misal: Kakao 1000, Sawit 100).</div>
+                        </div>
+                    </div>
+
+                    <!-- Input Satuan -->
+                    <div class="row mb-3 align-items-center">
+                        <label for="satuan" class="col-sm-3 col-form-label fw-semibold">Satuan</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="satuan" name="satuan" placeholder="Contoh: benih, pohon, batang" required list="list-satuan">
+                            <datalist id="list-satuan">
+                                <option value="benih">
+                                <option value="pohon">
+                                <option value="batang">
+                            </datalist>
+                            <div class="invalid-feedback">Satuan tidak boleh kosong.</div>
+                        </div>
+                    </div>
+
                     <!-- Input Deskripsi -->
                     <div class="row mb-3">
                         <label for="desk" class="col-sm-3 col-form-label fw-semibold">Deskripsi</label>

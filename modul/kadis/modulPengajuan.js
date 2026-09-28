@@ -33,8 +33,33 @@ $(document).ready(function () {
     }
   });
 
+  $("#s-pengajuan").on("change", function() {
+    if ($(this).val() == "1") { // ACC / Approve
+      updatePerhitunganKadis(true);
+    }
+  });
 
 });
+
+function updatePerhitunganKadis(isStatusApproveChange) {
+  let namaBibit = $("#nama-bibit-raw").val();
+  let luas = $("#tot-luas-lahan").val();
+  let jmlPerHektar = $("#jml-per-hektar").val();
+  let satuan = $("#satuan-bibit").val();
+  let res = hitungBibit(namaBibit, "", luas, jmlPerHektar, satuan);
+  
+  if (res.jumlah > 0) {
+    let currentStatus = $("#s-pengajuan").val();
+    if (currentStatus == "1" || isStatusApproveChange || !$("#jml-bantuan").val() || $("#jml-bantuan").val() == "0") {
+      $("#jml-bantuan").val(res.jumlah);
+      $("#info-rumus-bibit").html(`<span class="badge bg-success-subtle text-success border border-success-subtle"><i class="fa fa-calculator me-1"></i>Otomatis: ${res.text}</span>`);
+    } else {
+      $("#info-rumus-bibit").html(`<span class="badge bg-primary-subtle text-primary border border-primary-subtle"><i class="fa fa-info-circle me-1"></i>${res.text}</span>`);
+    }
+  } else {
+    $("#info-rumus-bibit").html(`<small class="text-muted fst-italic">Luas lahan kelompok belum tersedia / 0 Ha</small>`);
+  }
+}
 
 function resetPdfPreview() {
     $("#pdf-preview").attr("src", "");
@@ -57,7 +82,7 @@ function loadPengajuan() {
     success: function (data) {
       if (!Array.isArray(data) || data.length === 0) {
         $("#Pengajuan tbody").html(
-          '<tr><td colspan="12" class="text-center">Tidak ada data</td></tr>'
+          '<tr><td colspan="13" class="text-center">Tidak ada data</td></tr>'
         );
         return;
       }
@@ -69,6 +94,7 @@ function loadPengajuan() {
                     <td>${item.nama_kelompok}</td>
                     <td>${item.nama_kecamatan} - ${item.nama_desa}</td>
                     <td>${item.ketua}</td>
+                    <td>${parseFloat(item.tot_luas_lahan) > 0 ? item.tot_luas_lahan + ' Ha' : '-'}</td>
                     <td>${item.tgl_pengajuan}</td>
                     <td>${item.oleh}</td>
                     <td>${formatStatus(item.s_pengajuan)}</td>
@@ -136,9 +162,30 @@ function ApprovePengajuan(id_pengajuan) {
       
       $("#nama-kelompok").val(data.nama_kelompok);
       $("#id-pengajuan").val(data.id_pengajuan);
-      $("#s-pengajuan").val(data.s_pengajuan).trigger("change");
+      $("#s-pengajuan").val(data.s_pengajuan);
       $("#catatan").val(data.catatan);
-      
+      $("#nama-bibit-raw").val(data.nama_bibit);
+      $("#jml-per-hektar").val(data.jml_per_hektar || 100);
+      $("#satuan-bibit").val(data.satuan || 'pohon');
+      let jnsText = data.nama_bibit ? `${data.nama_bibit} (${data.jml_per_hektar || 100} ${data.satuan || 'pohon'}/Ha)` : '-';
+      $("#jns-bantuan").val(jnsText);
+      $("#tot-luas-lahan").val(parseFloat(data.tot_luas_lahan) > 0 ? data.tot_luas_lahan : 0);
+      $("#jml-bantuan").val(data.jml_bantuan);
+      $("#tgl-penyaluran").val(data.tgl_penyaluran);
+
+      // Hitung dan adaptasikan jumlah bibit sesuai rumus dinamis
+      let res = hitungBibit(data.nama_bibit, data.judul, data.tot_luas_lahan, data.jml_per_hektar, data.satuan);
+      if (res.jumlah > 0) {
+        if (data.s_pengajuan == "1" || !data.jml_bantuan || data.jml_bantuan == "0") {
+          $("#jml-bantuan").val(res.jumlah);
+          $("#info-rumus-bibit").html(`<span class="badge bg-success-subtle text-success border border-success-subtle"><i class="fa fa-calculator me-1"></i>Disesuaikan otomatis: ${res.text}</span>`);
+        } else {
+          $("#info-rumus-bibit").html(`<span class="badge bg-primary-subtle text-primary border border-primary-subtle"><i class="fa fa-info-circle me-1"></i>Rumus standar: ${res.text}</span>`);
+        }
+      } else {
+        $("#info-rumus-bibit").html(`<small class="text-muted fst-italic">Luas lahan kelompok belum tersedia / 0 Ha</small>`);
+      }
+
       // --- MENAMPILKAN PREVIEW PDF SAAT EDIT ---
       // Asumsi 'data.file' berisi nama file PDF (misal: proposal123.pdf)
       if(data.file_proposal && data.file_proposal !== "") {
@@ -193,6 +240,9 @@ $("#modalPengajuan").on("hidden.bs.modal", function () {
   $(".needs-validation").removeClass("was-validated");
   
   $("#id-pengajuan").val("");
+  $("#tot-luas-lahan").val("");
+  $("#jml-bantuan").val("");
+  $("#info-rumus-bibit").empty();
   $("#action").val("create");
   $(".modal-title").text("Tambah Data Pengajuan");
   

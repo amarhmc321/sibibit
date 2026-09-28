@@ -156,6 +156,9 @@ function createBibit($conn){
     // Ambil & validasi input
     // =====================
     $nama_bibit = trim($_POST['nama_bibit'] ?? '');
+    $jml_per_hektar = isset($_POST['jml_per_hektar']) ? intval($_POST['jml_per_hektar']) : 100;
+    $satuan = trim($_POST['satuan'] ?? 'pohon');
+    if (empty($satuan)) $satuan = 'pohon';
     // $stock = $_POST['stock'];
     $desk         = $_POST['desk'];
     $status       = $_POST['status'];
@@ -182,8 +185,8 @@ function createBibit($conn){
     // Insert data Data
     // =====================
     $stmt = $conn->prepare("
-        INSERT INTO tbl_bibit (nama_bibit, foto, desk, status) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sssi", $nama_bibit, $file, $desk, $status);
+        INSERT INTO tbl_bibit (nama_bibit, jml_per_hektar, satuan, foto, desk, status) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sisssi", $nama_bibit, $jml_per_hektar, $satuan, $file, $desk, $status);
 
     if (!$stmt->execute()) {
         echo json_encode([
@@ -208,6 +211,9 @@ function updateBibit($conn){
     // =====================
     $id_bibit   = $_POST['id_bibit'] ?? '';
     $nama_bibit = trim($_POST['nama_bibit'] ?? '');
+    $jml_per_hektar = isset($_POST['jml_per_hektar']) ? intval($_POST['jml_per_hektar']) : 100;
+    $satuan = trim($_POST['satuan'] ?? 'pohon');
+    if (empty($satuan)) $satuan = 'pohon';
     // $stock      = $_POST['stock'];
     $desk       = $_POST['desk'];
     $status       = $_POST['status'];
@@ -295,10 +301,10 @@ function updateBibit($conn){
     // =====================
     $stmt = $conn->prepare("
         UPDATE tbl_bibit
-        SET  nama_bibit = ?, foto = ?, desk = ?, status= ?
+        SET nama_bibit = ?, jml_per_hektar = ?, satuan = ?, foto = ?, desk = ?, status = ?
         WHERE id_bibit = ?
     ");
-    $stmt->bind_param("sssii", $nama_bibit, $nama_file, $desk, $status, $id_bibit);
+    $stmt->bind_param("sisssii", $nama_bibit, $jml_per_hektar, $satuan, $nama_file, $desk, $status, $id_bibit);
 
     if (!$stmt->execute()) {
         echo json_encode([

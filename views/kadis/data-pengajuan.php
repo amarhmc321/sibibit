@@ -53,6 +53,7 @@
                                 <th>Nama Kelompok</th>
                                 <th>Kecamatan</th>
                                 <th>ketua</th>
+                                <th>Luas Lahan</th>
                                 <th>TGL Pengajuan</th>
                                 <th>Oleh</th>
                                 <th>status</th>

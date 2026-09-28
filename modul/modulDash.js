@@ -33,7 +33,49 @@ $(document).ready(function () {
     }
   });
 
+  $("#id-group, #judul").on("change input", function() {
+    updateEstimasiBibitUser();
+  });
+
 });
+
+function updateEstimasiBibitUser() {
+  let id_group = $("#id-group").val();
+  let nama_bibit = $("#nama_bibit").val();
+  let judul = $("#judul").val();
+  let jml_per_hektar = parseInt($("#jml-per-hektar").val()) || 0;
+  let satuan = $("#satuan-bibit").val() || 'pohon';
+
+  if (!id_group) {
+    $("#tot-luas-lahan").val("");
+    $("#jml-bantuan").val("");
+    $("#estimasi-bibit").html('<small class="text-muted"><i class="fa fa-info-circle me-1"></i>Pilih kelompok untuk memuat total luas lahan & estimasi bibit.</small>');
+    return;
+  }
+
+  $.ajax({
+    url: `controller/process/getUserGroups.php?id_group=${id_group}`,
+    type: "GET",
+    dataType: "json",
+    success: function(resGroup) {
+      let luas = parseFloat(resGroup.tot_luas_lahan) || 0;
+      $("#tot-luas-lahan").val(luas > 0 ? luas : 0);
+
+      let calc = hitungBibit(nama_bibit, judul, luas, jml_per_hektar, satuan);
+      if (calc.jumlah > 0) {
+        $("#jml-bantuan").val(calc.jumlah);
+        $("#estimasi-bibit").html(`<span class="badge bg-success-subtle text-success border border-success-subtle"><i class="fa fa-calculator me-1"></i>Estimasi: ${new Intl.NumberFormat('id-ID').format(calc.jumlah)} ${calc.satuan} (${calc.text})</span>`);
+      } else {
+        $("#jml-bantuan").val(0);
+        if (luas <= 0) {
+          $("#estimasi-bibit").html('<span class="text-danger small"><i class="fa fa-exclamation-triangle me-1"></i>Kelompok ini belum memiliki data lahan terdaftar di sistem.</span>');
+        } else {
+          $("#estimasi-bibit").empty();
+        }
+      }
+    }
+  });
+}
 
 
 
@@ -108,11 +150,19 @@ function addPengajuan(id_bibit) {
       // Isi form dengan data yang diterima
       $("#id_bibit").val(data.id_bibit);
       $("#nama_bibit").val(data.nama_bibit);
-      // $("#stock").val(data.stock);
+      $("#jml-per-hektar").val(data.jml_per_hektar || 100);
+      $("#satuan-bibit").val(data.satuan || 'pohon');
+      $("#label-satuan-bantuan").text(data.satuan || 'pohon');
       $("#desk").val(data.desk);
       $("#status").val(data.status).trigger("change");
 
-   
+      // Auto select matching option in judul if found
+      $("#judul option").each(function() {
+        if ($(this).text().toLowerCase().includes(data.nama_bibit.toLowerCase())) {
+          $(this).prop("selected", true);
+        }
+      });
+      updateEstimasiBibitUser();
     },
     error: function () {
       Popup.error("Gagal!", "Error pada link", 3000);
@@ -194,3 +244,14 @@ function resetPdfPreview() {
     $("#pdf-container").hide();
     $("#empty-preview").show();
 }
+
+$("#modalPengajuan").on("hidden.bs.modal", function () {
+  $(this).find("form")[0].reset();
+  $(".needs-validation").removeClass("was-validated");
+  $("#id-pengajuan").val("");
+  $("#tot-luas-lahan").val("");
+  $("#jml-bantuan").val("");
+  $("#estimasi-bibit").empty();
+  $("#action").val("create");
+  resetPdfPreview();
+});

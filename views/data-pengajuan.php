@@ -55,6 +55,7 @@
                                 <th>Kecamatan/Desa</th>
                                 <th>ketua</th>
                                 <th>Jenis Bibit</th>
+                                <th>Luas Lahan</th>
                                 <th>status</th>
                                 <th>TGL Pengajuan</th>
                                 <th>TGL Penyaluran</th>

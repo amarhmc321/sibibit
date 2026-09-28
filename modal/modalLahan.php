@@ -36,7 +36,7 @@
 
                                 <div class="mb-2 col-md-12">
                                     <label for="luas-lahan" class="form-label fw-bold">Luas Lahan</label>
-                                    <input type="number" class="form-control" id="luas-lahan" name="luas_lahan" placeholder="Luas Lahan" required>
+                    <input type="number" class="form-control" id="luas-lahan" name="luas_lahan" placeholder="Luas Lahan" step="0.5" min="0" required>
                                 </div>
                             
                                

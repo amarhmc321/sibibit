@@ -37,10 +37,12 @@ function loadBibit() {
             let table = "";
             let no = 1;
             $.each(data, function(_, item) {
+                let rasioText = `${new Intl.NumberFormat('id-ID').format(item.jml_per_hektar || 100)} ${item.satuan || 'pohon'} / Ha`;
                 table += `
                     <tr>
                         <td>${no++}</td>
                         <td>${item.nama_bibit}</td>
+                        <td><span class="badge bg-primary-subtle text-primary border border-primary-subtle">${rasioText}</span></td>
                         <td>${item.desk}</td>
                         <td>${s_bibit(item.status)}</td>
                         <td class="d-flex gap-2">
@@ -101,11 +103,14 @@ function editBibit(id_bibit) {
       // Isi form dengan data yang diterima
       $("#id_bibit").val(data.id_bibit);
       $("#nama_bibit").val(data.nama_bibit);
+      $("#jml_per_hektar").val(data.jml_per_hektar || 100);
+      $("#satuan").val(data.satuan || "pohon");
       // $("#stock").val(data.stock);
       $("#desk").val(data.desk);
-       $("#status").val(data.status).trigger("change");
-
-   
+      $("#status").val(data.status).trigger("change");
+      if (data.foto) {
+        $("#profilePreview").attr("src", `img/bibit/${data.foto}`);
+      }
     },
     error: function () {
       Popup.error("Gagal!", "Error pada link", 3000);
@@ -117,6 +122,10 @@ function editBibit(id_bibit) {
 function resetForm() {
   $("#id_bibit").val(""); // Kosongkan ID Bibit
   $("#nama_bibit").val(""); // Kosongkan nama Bibit
+  $("#jml_per_hektar").val(100);
+  $("#satuan").val("pohon");
+  $("#desk").val("");
+  $("#profilePreview").attr("src", "img/bibit/default.jpg");
 }
 // fungsi untuk hapus Bibit
 function deleteBibit(id_bibit) {

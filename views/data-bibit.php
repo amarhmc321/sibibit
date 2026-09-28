@@ -31,6 +31,7 @@
                             <tr>
                                 <th class="ph-full">No</th>
                                 <th>Bibit</th>
+                                <th>Rasio / Ha</th>
                                 <th>Deskripsi</th>
                                 <th>status</th>
                                 <th class="ph-actions-2">Aksi</th>

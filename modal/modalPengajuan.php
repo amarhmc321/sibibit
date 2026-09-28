@@ -27,11 +27,11 @@
                                  <div class="mb-2 col-md-12">
                                     <label for="judul" class="form-label fw-bold">Judul/Kegiatan</label>
                                     <select class="form-select form-select-sm " id="judul" name="judul" aria-describedby="Judul">
-                                        <option value="Pengajuan bantuan bibit Kakao">Pengajuan bantuan Bibit kakao</option>
-                                         <option value="Pengajuan bantuan bibit Kelapa Ganja">Pengajuan bantuan Kelapa Ganja</option>
+                                        <option value="Pengajuan bantuan bibit Kakao">Pengajuan bantuan Bibit Kakao</option>
+                                         <option value="Pengajuan bantuan bibit Kelapa Genjah">Pengajuan bantuan Bibit Kelapa Genjah</option>
                                           <option value="Pengajuan bantuan bibit Pala">Pengajuan bantuan Bibit Pala</option>
                                           <option value="Pengajuan bantuan bibit Kelapa Sawit">Pengajuan bantuan Bibit Kelapa Sawit</option>
-                                          <option value="Pengajuan bantuan bibit Cengkeh">Pengajuan bantuan Bibit Kelapa Cengkeh</option>
+                                          <option value="Pengajuan bantuan bibit Cengkeh">Pengajuan bantuan Bibit Cengkeh</option>
                                     </select>
                                    
 
@@ -49,21 +49,35 @@
                                 </div> -->
 
                                 <div class="mb-2 col-md-12">
-                                    <label for="jns-bantuan" class="form-label fw-bold">Jenis Bibit</label>
+                                    <label for="nama_bibit" class="form-label fw-bold">Jenis Bibit</label>
                                     <input type="hidden" class="form-control readonly-style" id="id_bibit" name="id_bibit" readonly required>
+                                    <input type="hidden" id="jml-per-hektar" value="100">
+                                    <input type="hidden" id="satuan-bibit" value="pohon">
                                     <input type="text" class="form-control readonly-style" id="nama_bibit" name="nama_bibit" readonly>
                                 </div>
 
                                 <div class="mb-2 col-md-12">
-                                    <label for="jml-bantuan" class="form-label fw-bold">Tangal Penyaluran</label>
-                                    <input type="date" class="form-control readonly-style" id="tgl-penyaluran" name="tgl_penyaluran" readonly>
-                                    
-                                </div> 
+                                    <label for="tot-luas-lahan" class="form-label fw-bold">Total Luas Lahan Kelompok</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa fa-map-marked-alt"></i></span>
+                                        <input type="text" class="form-control readonly-style fw-bold" id="tot-luas-lahan" placeholder="Pilih kelompok terlebih dahulu" readonly>
+                                        <span class="input-group-text">Ha</span>
+                                    </div>
+                                    <div id="estimasi-bibit" class="form-text mt-1"></div>
+                                </div>
 
-                               <div class="mb-2 col-md-12 d-none">
-                                    <label for="jml-bantuan" class="form-label fw-bold">Nominal Benih </label>
-                                    <input type="number" class="form-control" id="jml-bantuan" name="jml_bantuan" placeholder="Contoh: 3000" >
-                                    
+                                <div class="mb-2 col-md-12">
+                                    <label for="jml-bantuan" class="form-label fw-bold">Estimasi Bantuan Bibit</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa fa-leaf"></i></span>
+                                        <input type="number" class="form-control readonly-style fw-bold text-success" id="jml-bantuan" name="jml_bantuan" placeholder="Otomatis terhitung" readonly>
+                                        <span class="input-group-text" id="label-satuan-bantuan">bibit</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-2 col-md-12">
+                                    <label for="tgl-penyaluran" class="form-label fw-bold">Tanggal Penyaluran (Diisi Admin)</label>
+                                    <input type="date" class="form-control readonly-style" id="tgl-penyaluran" name="tgl_penyaluran" readonly>
                                 </div> 
                                 
                             

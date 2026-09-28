@@ -276,6 +276,66 @@ function jns_bibit(jml_bibit, jns_bibit){
   }
 }
 
+// Rumus bantuan bibit per hektar:
+// Dinamis sesuai master data bibit (tbl_bibit.jml_per_hektar & tbl_bibit.satuan)
+// Default jika belum diset: Kakao: 1000 benih/Ha; Sawit/Cengkeh/Kelapa Genjah: 100 pohon/Ha
+function hitungBibit(namaBibit, judul, luasLahan, jmlPerHektarCustom, satuanCustom) {
+  let luas = parseFloat(luasLahan) || 0;
+  if (luas <= 0) {
+    return {
+      jumlah: 0,
+      rate: 0,
+      satuan: "",
+      jenis: "",
+      text: ""
+    };
+  }
+
+  let textTarget = ((namaBibit || "") + " " + (judul || "")).toLowerCase();
+  let rate = parseInt(jmlPerHektarCustom) || 0;
+  let satuan = satuanCustom || "";
+  let jenis = namaBibit || "Bibit";
+
+  // Jika rate belum dispesifikasikan secara dinamis, fallback ke deteksi nama
+  if (rate <= 0) {
+    if (textTarget.includes("kakao")) {
+      rate = 1000;
+      satuan = satuan || "benih";
+      jenis = "Kakao";
+    } else if (textTarget.includes("sawit")) {
+      rate = 100;
+      satuan = satuan || "pohon";
+      jenis = "Sawit";
+    } else if (textTarget.includes("cengkeh")) {
+      rate = 100;
+      satuan = satuan || "pohon";
+      jenis = "Cengkeh";
+    } else if (textTarget.includes("kelapa genjah") || textTarget.includes("kelapa ganja") || textTarget.includes("kelapa")) {
+      rate = 100;
+      satuan = satuan || "pohon";
+      jenis = "Kelapa Genjah";
+    } else {
+      rate = 100;
+      satuan = satuan || "pohon";
+      jenis = namaBibit || "Bibit";
+    }
+  } else {
+    if (!satuan) satuan = "pohon";
+  }
+
+  let total = Math.round(luas * rate);
+  let formattedTotal = new Intl.NumberFormat('id-ID').format(total);
+  let formattedRate = new Intl.NumberFormat('id-ID').format(rate);
+
+  return {
+    jumlah: total,
+    rate: rate,
+    satuan: satuan,
+    jenis: jenis,
+    text: `${jenis} (${formattedRate} ${satuan}/Ha) × ${luas} Ha = ${formattedTotal} ${satuan}`
+  };
+}
+
 function s_bibit(permohonan) {
   permohonan = parseInt(permohonan);
   switch (permohonan) {

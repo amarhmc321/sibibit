@@ -31,6 +31,8 @@ CREATE TABLE `tbl_bibit` (
   `id_bibit` int(11) UNSIGNED NOT NULL,
   `nama_bibit` varchar(100) NOT NULL,
   `stock` int(11) NOT NULL,
+  `jml_per_hektar` int(11) NOT NULL DEFAULT 100,
+  `satuan` varchar(50) NOT NULL DEFAULT 'pohon',
   `tgl_ketersedian` datetime NOT NULL DEFAULT current_timestamp(),
   `foto` varchar(255) NOT NULL DEFAULT 'default.jpg',
   `desk` text NOT NULL,

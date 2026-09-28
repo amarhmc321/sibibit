@@ -33,7 +33,7 @@ function readLaporan($conn, $id_kecamatan, $id_bibit, $dari, $hingga)
                 pj.*,
                 g.nama_kelompok,
                 p.nama_petani AS ketua,
-                SUM(l.luas_lahan) AS tot_luas_lahan,
+                COALESCE(SUM(l.luas_lahan), 0) AS tot_luas_lahan,
                 d.nama_desa,
                 k.nama_kecamatan,
                 b.nama_bibit

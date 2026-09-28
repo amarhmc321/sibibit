@@ -32,23 +32,37 @@
                                         <input type="text" class="form-control text-muted" id="nama-kelompok" name="nama_kelompok" readonly>
                                     </div>
                                     
-                                    <div class="mb-3">
+                                     <div class="mb-3">
                                         <label for="jns-bantuan" class="form-label text-secondary small fw-bold mb-1">Jenis Bantuan</label>
                                         <input type="text" class="form-control text-muted" id="jns-bantuan" name="jns_bantuan" readonly>
                                     </div>
 
+                                    <input type="hidden" id="jml-per-hektar" value="100">
+                                    <input type="hidden" id="satuan-bibit" value="pohon">
+                                    <input type="hidden" id="nama-bibit-raw" value="">
+
+                                    <div class="mb-3">
+                                        <label for="tot-luas-lahan" class="form-label text-secondary small fw-bold mb-1">Total Luas Lahan Kelompok</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-map-marked-alt"></i></span>
+                                            <input type="text" class="form-control text-muted fw-bold" id="tot-luas-lahan" readonly>
+                                            <span class="input-group-text">Ha</span>
+                                        </div>
+                                        <div class="form-text small text-muted"><i class="fa fa-info-circle me-1"></i>Akumulasi lahan dari data kelompok tani</div>
+                                    </div>
 
                                     <div class="mb-2">
-                                        <label for="jns-bantuan" class="form-label text-secondary small fw-bold mb-1">Tanggal Penyaluran (Estimasi)</label>
+                                        <label for="tgl-penyaluran" class="form-label text-secondary small fw-bold mb-1">Tanggal Penyaluran (Estimasi)</label>
                                         <input type="date" class="form-control" id="tgl-penyaluran" name="tgl_penyaluran">
                                     </div> 
 
                                     <div class="mb-2">
-                                        <label for="jml-bantuan" class="form-label text-secondary small fw-bold mb-1">Nominal Benih</label>
+                                        <label for="jml-bantuan" class="form-label text-secondary small fw-bold mb-1">Nominal Benih / Bantuan</label>
                                         <div class="input-group">
-                                            <span class="input-group-text "><i class="fa fa-leaf"></i></span>
-                                            <input type="number" class="form-control fw-bold" id="jml-bantuan" name="jml_bantuan" placeholder="Contoh: 3000" required>
+                                            <span class="input-group-text"><i class="fa fa-leaf"></i></span>
+                                            <input type="number" class="form-control fw-bold text-success" id="jml-bantuan" name="jml_bantuan" placeholder="Contoh: 3000" required>
                                         </div>
+                                        <div id="info-rumus-bibit" class="form-text mt-1"></div>
                                     </div>
                                 </div>
                             </div>
